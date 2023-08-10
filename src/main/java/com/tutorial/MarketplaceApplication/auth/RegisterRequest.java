@@ -1,4 +1,5 @@
-package com.tutorial.MarketplaceApplication.dao.request;
+package com.tutorial.MarketplaceApplication.auth;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpRequest {
+public class RegisterRequest {
     private String firstName;
     private String lastName;
     private String email;

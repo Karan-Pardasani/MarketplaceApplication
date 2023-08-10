@@ -1,4 +1,4 @@
-package com.tutorial.MarketplaceApplication.dao.response;
+package com.tutorial.MarketplaceApplication.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthenticationResponse {
+@NoArgsConstructor
+public class AuthenticationResponse {
     private String token;
 }

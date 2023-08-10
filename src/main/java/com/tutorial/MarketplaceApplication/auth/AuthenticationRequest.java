@@ -1,4 +1,4 @@
-package com.tutorial.MarketplaceApplication.dao.request;
+package com.tutorial.MarketplaceApplication.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SigninRequest {
+public class AuthenticationRequest {
+
     private String email;
+
     private String password;
 }
