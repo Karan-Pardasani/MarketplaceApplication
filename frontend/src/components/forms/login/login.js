@@ -3,41 +3,39 @@ import './login.css'
 import FormButton from '../../buttons/form_button'
 import FormLink from '../../link/link'
 import TextField from '../../fields/textfield/textField'
-
+import { useForm } from 'react-hook-form';
 
 function Login() {
-  return (
-    <div class="center-form">
-        <form>
-            <h3>Sign In</h3>
-            <div className="mb-3">
-                <TextField type_ = "email" placeholder= "Enter email" label = "Email Address"/>
-            </div>
-            <div className="mb-3">
-                <TextField type_="password" placeholder="Enter Password" label="Password" />
-            </div>
-            <div className="mb-3">
-            {/* <div className="custom-control custom-checkbox">
-                <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-                />
-                <label className="custom-control-label" htmlFor="customCheck1">
-                Remember me
-                </label>
-            </div> */}
-            </div>
-            <div className="d-grid">
-            <FormButton type="submit" style_="primary" text="Submit"  />
-            <FormLink href="/register" text="Register" />
-            </div>
-            {/* <p className="forgot-password text-right">
-            Forgot <a href="#">password?</a>
-            </p> */}
-        </form>
-    </div>
-  )
+
+    const { register, handleSubmit } = useForm();
+
+    const onSubmit = (data) => {
+        console.log(data);
+    }
+
+    return (
+        <div className="center-form">
+            <h3 className='mb-3'>Sign In</h3>
+            <form onSubmit={handleSubmit(onSubmit)}>
+
+                <div className="form-group mb-3">
+                    <label className='mb-3' htmlFor='username'>Username</label>
+                    <input className='form-control' {...register("username")} />
+                </div>
+                
+                <div className="form-group mb-3">
+                    <label className='mb-3' htmlFor='username'>Password</label>
+                    <input className='form-control' type="password" {...register("password")} />
+                </div>
+                
+                <div className="d-grid">
+                    <button type='submit' className='btn btn-primary'>Submit</button>
+                    <FormLink href="/register" text="Register" />
+                </div>
+
+            </form>
+        </div>
+    )
 }
 
 export default Login
