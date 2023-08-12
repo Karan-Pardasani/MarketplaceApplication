@@ -2,11 +2,15 @@ package com.tutorial.MarketplaceApplication.auth;
 
 import com.tutorial.MarketplaceApplication.entities.Role;
 import com.tutorial.MarketplaceApplication.entities.User;
+import com.tutorial.MarketplaceApplication.errors.CustomErrorException;
 import com.tutorial.MarketplaceApplication.repository.UserRepository;
 import com.tutorial.MarketplaceApplication.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +35,13 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
 
+        if(repository.findByEmail(request.getEmail()) != null){
+            throw new CustomErrorException(
+                    HttpStatus.CONFLICT,
+                    "User already present!!"
+                    );
+        }
+
         repository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
@@ -40,12 +51,14 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                request.getEmail(),
+                request.getPassword()
         );
+
+        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
 
