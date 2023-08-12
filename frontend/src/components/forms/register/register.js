@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import './register.css'
 import FormLink from '../../link/link';
 import $ from "jquery";
+import { registerUser } from '../../../services/auth/authenticate';
 
 function Register() {
 
@@ -11,7 +12,7 @@ function Register() {
 
     const onSubmit = (data) => {
         console.group(data);
-        
+        registerUser(data);
     }
 
     return (
