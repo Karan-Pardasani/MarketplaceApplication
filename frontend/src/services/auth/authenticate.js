@@ -1,11 +1,11 @@
 import $ from 'jquery';
+import React from 'react'
 
-
-function registerUser(data){
+async function registerUser(data){
     console.log(data);
     const {firstname, lastname, username, password} = data; 
     const { REACT_APP_BACKEND_URL } = process.env;
-    $.ajax(`${REACT_APP_BACKEND_URL}/api/v1/auth/register`,{
+    const result = await $.ajax(`${REACT_APP_BACKEND_URL}/api/v1/auth/register`,{
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -16,11 +16,16 @@ function registerUser(data){
             lastname,
             username,
             password
-        }),
-        success: function(data, status, xhr){
-            console.log(data);
-        }
+        })
+    }).then((response) => {
+
+        console.log(response);
+
+    }).catch((error) => {
+        console.log(error.responseJSON.message);
     });
+
+    return (<></>)
 }
 
 export { registerUser }
