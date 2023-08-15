@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TextField from '../../fields/textfield/textField'
 import { useForm } from 'react-hook-form'
 import './register.css'
@@ -21,9 +21,14 @@ function Register({user, setToken}) {
 
     console.log(response);
 
-    if(user.auth.token != null){
-        navigate("/")
-    }
+    useEffect(() => {
+
+        if(user.auth.token != null){
+            navigate("/");
+        }    
+
+    });
+
 
     const onSubmit = (data) => {
         console.log(data);
@@ -34,7 +39,7 @@ function Register({user, setToken}) {
             if(res.token != null){
                 setToken({ token: res.token });
                 localStorage.setItem("token", res.token);
-                navigate("/")
+                navigate("/");
             }
         });
         
@@ -111,7 +116,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setToken: (payload) => {
-            console.log("(()))",payload);
             dispatch(setToken(payload));
         },
     }

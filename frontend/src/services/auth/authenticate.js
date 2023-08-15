@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import React from 'react'
 
 async function registerUser(data){
 
@@ -27,4 +26,30 @@ async function registerUser(data){
     return result;
 }
 
-export { registerUser }
+async function loginUser(data){
+    const { username, password } = data;
+    const { REACT_APP_BACKEND_URL } = process.env;
+
+    const result = await $.ajax(`${REACT_APP_BACKEND_URL}/api/v1/auth/authenticate`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: 'POST',
+        data: JSON.stringify({
+            email: username,
+            password
+        })
+    }).then((response) => {
+
+        return response;
+    }).catch((error) => {
+
+        return error.responseJSON;
+    });
+    console.log(result);
+    return result;
+}
+
+
+export { registerUser, loginUser }
