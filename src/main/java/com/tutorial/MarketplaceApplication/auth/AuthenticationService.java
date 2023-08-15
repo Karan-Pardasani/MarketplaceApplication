@@ -34,13 +34,21 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-
-        if(repository.findByEmail(request.getEmail()) != null){
-            throw new CustomErrorException(
-                    HttpStatus.CONFLICT,
-                    "User already present!!"
-                    );
-        }
+        var user2  = repository.findByEmail(request.getEmail());
+        user2.ifPresentOrElse(
+                (user3) -> {
+                    throw new CustomErrorException(HttpStatus.CONFLICT, "User already present");
+                },
+                () -> {
+                    repository.save(user);
+                }
+        );
+//        if(repository.findByEmail(request.getEmail()) != null){
+//            throw new CustomErrorException(
+//                    HttpStatus.CONFLICT,
+//                    "User already present!!"
+//                    );
+//        }
 
         repository.save(user);
 

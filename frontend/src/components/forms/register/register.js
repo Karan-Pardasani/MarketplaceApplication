@@ -6,23 +6,44 @@ import FormLink from '../../link/link';
 import $ from "jquery";
 import { registerUser } from '../../../services/auth/authenticate';
 import { DevTool } from '@hookform/devtools';
+import authSlice, { setToken } from '../../../redux/user/auth/authSlice';
+import {connect} from 'react-redux';
+import { redirect } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-
-function Register() {
+function Register({user, setToken}) {
 
     const { register,  handleSubmit, getValues, formState, control} = useForm();
     const {errors} = formState;
-    const [response, setResponse] = useState({});
+    const [response, setResponse] = useState("");
+    const navigate = useNavigate();
+
+
     console.log(response);
-    const onSubmit = (data) => {
-        console.log("*********")
-        console.log(data);
-        setResponse(registerUser(data));
+
+    if(user.auth.token != null){
+        navigate("/")
     }
-    console.log(errors);
+
+    const onSubmit = (data) => {
+        console.log(data);
+        registerUser(data).then((res) => {
+            if (res.status == "CONFLICT"){
+                setResponse(res.message);
+            }
+            if(res.token != null){
+                setToken({ token: res.token });
+                localStorage.setItem("token", res.token);
+                navigate("/")
+            }
+        });
+        
+    }
+    
     return (
         <div className="center-form">
             <h3 className='mb-3'>Register</h3>
+            <h5 className='error-msg'>{response}</h5>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
                 <div className="form-group mb-3">
@@ -81,4 +102,19 @@ function Register() {
     )
 }
 
-export default Register
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setToken: (payload) => {
+            console.log("(()))",payload);
+            dispatch(setToken(payload));
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
