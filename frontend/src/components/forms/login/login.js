@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import './login.css';
-import FormLink from '../../link/link';
 import { useForm } from 'react-hook-form';
 import {connect} from 'react-redux';
 import {loginUser} from '../../../services/auth/authenticate';
@@ -8,7 +7,7 @@ import { setToken } from '../../../redux/user/auth/authSlice';
 import { useNavigate } from "react-router-dom";
 import { addFlashMessage, removeFlashMessage } from '../../../redux/message/flashMessageSlice';
 import { v4 as uuidv4 } from "uuid";
-import MessageComponent from "../../messages/displayMessages";
+import { Link } from "react-router-dom";
 
 function Login({ user, setToken, addFlashMessage, removeFlashMessage }) {
 
@@ -67,7 +66,7 @@ function Login({ user, setToken, addFlashMessage, removeFlashMessage }) {
                 
                 <div className="d-grid">
                     <button type='submit' className='btn btn-primary'>Submit</button>
-                    <FormLink href="/register" text="Register" />
+                    <Link to="/register"> Register </Link>
                 </div>
 
             </form>

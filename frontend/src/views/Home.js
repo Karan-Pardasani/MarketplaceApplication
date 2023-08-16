@@ -1,23 +1,31 @@
 import {useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import {connect} from 'react-redux';
-import { toast } from 'react-toastify';
-
+import Header from '../components/header/header';
+import ProductList from '../components/productList/productList';
+import Footer from '../components/footer/footer';
 
 function Home({ user}) {
 
   console.log("___",user);
 
   const navigate = useNavigate();
-  console.log("Home...");
-  useEffect(()=>{
-    if( user.auth.token == null){
-      navigate("/login");
-    }
 
-  }, []);
+  // useEffect(()=>{
+  //   if( user.auth.token == null){
+  //     navigate("/login");
+  //   }
 
+  // }, []);
+  return(
+    <>  
+      <Header />
+      <ProductList/>
+      <Footer/>
+    </>
+  )
 
+  
 
 }
 

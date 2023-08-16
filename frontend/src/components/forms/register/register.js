@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import './register.css'
-import FormLink from '../../link/link';
 import { registerUser } from '../../../services/auth/authenticate';
 import { DevTool } from '@hookform/devtools';
 import { setToken } from '../../../redux/user/auth/authSlice';
@@ -9,6 +8,7 @@ import {connect} from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { addFlashMessage, removeFlashMessage } from '../../../redux/message/flashMessageSlice';
+import { Link } from "react-router-dom";
 
 function Register({user, setToken, addFlashMessage, removeFlashMessage}) {
 
@@ -105,7 +105,7 @@ function Register({user, setToken, addFlashMessage, removeFlashMessage}) {
                 
                 <div className="d-grid">
                     <button type='submit' className='btn btn-primary'>Submit</button>
-                    <FormLink href="/login" text="Sign In" />
+                    <Link to="/login"> Sign In </Link>
                 </div>
 
             </form>

@@ -1,0 +1,35 @@
+.navbar{
+    background-color: #ffede7 !important;
+}
+
+.nav-item.dropdown{
+    margin-right: 3rem;
+}
+
+.navLinks {
+    color: #c24244 !important;
+    text-decoration: none;
+}
+
+.navbar-brand {
+    letter-spacing: 3px;
+    color: #c24244 !important;
+  }
+  
+  .navbar-brand:hover {
+      color: #c24244 !important;
+  }
+  
+  .navbar-scroll .nav-link,
+  .navbar-scroll .fa-bars {
+    color: #7f4722 !important;
+  }
+  
+  .navbar-scrolled .nav-link,
+  .navbar-scrolled .fa-bars {
+    color: #7f4722 !important;
+  }
+  
+  .navbar-scrolled {
+    background-color: #ffede7 !important;
+  }

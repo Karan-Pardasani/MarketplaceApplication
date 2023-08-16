@@ -1,0 +1,21 @@
+.phantomStyle{
+    display: block;
+    padding: 20px;
+    height: 60px;
+    width: 100%;
+}
+
+
+.footerStyle{
+    background-color: #ffede7;
+    font-size: medium;
+    color: black;
+    border-top: 1px solid #E7E7E7 !important;
+    text-align: right;
+    padding: 5px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+  };
