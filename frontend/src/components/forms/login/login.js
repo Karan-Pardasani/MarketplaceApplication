@@ -1,27 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import './login.css';
-import FormButton from '../../buttons/form_button';
 import FormLink from '../../link/link';
-import TextField from '../../fields/textfield/textField';
 import { useForm } from 'react-hook-form';
 import {connect} from 'react-redux';
 import {loginUser} from '../../../services/auth/authenticate';
 import { setToken } from '../../../redux/user/auth/authSlice';
 import { useNavigate } from "react-router-dom";
+import { addFlashMessage, removeFlashMessage } from '../../../redux/message/flashMessageSlice';
+import { v4 as uuidv4 } from "uuid";
+import MessageComponent from "../../messages/displayMessages";
 
-function Login({ user, setToken }) {
+function Login({ user, setToken, addFlashMessage, removeFlashMessage }) {
 
     const { register, handleSubmit, formState } = useForm();
     const {errors} = formState;
-    const [response, setResponse] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-
+        console.log("////");
         if(user.auth.token != null){
             navigate("/");
         }    
-
+        
     });
 
     const onSubmit = (data) => {
@@ -31,15 +31,22 @@ function Login({ user, setToken }) {
                 localStorage.setItem("token", data.token);
                 navigate("/home");                
             }else{
-                setResponse(data.message);
+                let messageObj = {}
+                messageObj.id = uuidv4();
+                messageObj.message = data.message
+                messageObj.type = "error"
+                addFlashMessage(messageObj);
+                setTimeout(() => {
+                    removeFlashMessage(messageObj.id);
+                }, 5);
             }
         });
     }
 
     return (
+        <div>
         <div className="center-form">
             <h3 className='mb-3'>Sign In</h3>
-            <h5 className='error-msg'>{response}</h5>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
                 <div className="form-group mb-3">
@@ -65,12 +72,13 @@ function Login({ user, setToken }) {
 
             </form>
         </div>
+        </div>
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user 
+        user: state.user
     }
 }
 
@@ -78,6 +86,12 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setToken: (payload) => {
             dispatch(setToken(payload));
+        },
+        addFlashMessage: (payload) => {
+            dispatch(addFlashMessage(payload));
+        },
+        removeFlashMessage: (payload) => {
+            dispatch(removeFlashMessage(payload));
         }
     }
 }

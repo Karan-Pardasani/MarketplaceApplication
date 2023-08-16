@@ -1,20 +1,17 @@
-import Login from '../components/forms/login/login.js'
-
-import React, {useEffect} from 'react'
-import { setToken } from '../redux/user/auth/authSlice.js';
+import {useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import {connect} from 'react-redux';
+import { toast } from 'react-toastify';
 
 
-function Home({ user }) {
+function Home({ user}) {
 
   const navigate = useNavigate();
-  console.log(localStorage.getItem("token"));
-  console.log(user);
   useEffect(()=>{
     if( user.auth.token == null){
       navigate("/login");
     }
+
   }, []);
 
 
@@ -24,7 +21,8 @@ function Home({ user }) {
 const mapStateToProps = (state) => {
 
   return {
-    user: state.user
+    user: state.user,
+    messages: state.messages
   }
 
 };

@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import TextField from '../../fields/textfield/textField'
 import { useForm } from 'react-hook-form'
 import './register.css'
 import FormLink from '../../link/link';
-import $ from "jquery";
 import { registerUser } from '../../../services/auth/authenticate';
 import { DevTool } from '@hookform/devtools';
-import authSlice, { setToken } from '../../../redux/user/auth/authSlice';
+import { setToken } from '../../../redux/user/auth/authSlice';
 import {connect} from 'react-redux';
-import { redirect } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { addFlashMessage, removeFlashMessage } from '../../../redux/message/flashMessageSlice';
 
-function Register({user, setToken}) {
+function Register({user, setToken, addFlashMessage, removeFlashMessage}) {
 
     const { register,  handleSubmit, getValues, formState, control} = useForm();
     const {errors} = formState;
@@ -34,7 +33,15 @@ function Register({user, setToken}) {
         console.log(data);
         registerUser(data).then((res) => {
             if (res.status == "CONFLICT"){
-                setResponse(res.message);
+                // setResponse(res.message);
+                let messageObj = {}
+                messageObj.id = uuidv4();
+                messageObj.message = res.message
+                messageObj.type = "error"
+                addFlashMessage(messageObj);
+                setTimeout(() => {
+                    removeFlashMessage(messageObj.id);
+                }, 5);
             }
             if(res.token != null){
                 setToken({ token: res.token });
@@ -118,6 +125,12 @@ const mapDispatchToProps = (dispatch) => {
         setToken: (payload) => {
             dispatch(setToken(payload));
         },
+        addFlashMessage: (payload) => {
+            dispatch(addFlashMessage(payload));
+        },
+        removeFlashMessage: (payload) => {
+            dispatch(removeFlashMessage(payload));
+        }
     }
 }
 

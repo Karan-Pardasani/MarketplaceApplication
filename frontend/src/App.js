@@ -1,11 +1,15 @@
+import { ToastContainer } from "react-toastify";
 import { routes } from "./routes";
 import { useRoutes } from "react-router-dom";
-
+import 'react-toastify/dist/ReactToastify.css';
+import MessageComponent from "./components/messages/displayMessages"
 function App() {
 
   return (
     <div>
-      {useRoutes(routes)}      
+      <MessageComponent/>
+      {useRoutes(routes)}
+        <ToastContainer/>
     </div>
   );
 }
