@@ -6,7 +6,10 @@ import { toast } from 'react-toastify';
 
 function Home({ user}) {
 
+  console.log("___",user);
+
   const navigate = useNavigate();
+  console.log("Home...");
   useEffect(()=>{
     if( user.auth.token == null){
       navigate("/login");

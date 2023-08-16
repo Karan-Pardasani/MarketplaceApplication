@@ -27,9 +27,9 @@ function Login({ user, setToken, addFlashMessage, removeFlashMessage }) {
     const onSubmit = (data) => {
         loginUser(data).then((data) => {
             if(data.token != null){
-                setToken(data.token);
+                setToken({"token": data.token});
                 localStorage.setItem("token", data.token);
-                navigate("/home");                
+                navigate("/");                
             }else{
                 let messageObj = {}
                 messageObj.id = uuidv4();
@@ -85,6 +85,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setToken: (payload) => {
+            console.log("****",payload);
             dispatch(setToken(payload));
         },
         addFlashMessage: (payload) => {
