@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './login.css';
 import FormButton from '../../buttons/form_button';
 import FormLink from '../../link/link';
@@ -15,6 +15,14 @@ function Login({ user, setToken }) {
     const {errors} = formState;
     const [response, setResponse] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+        if(user.auth.token != null){
+            navigate("/");
+        }    
+
+    });
 
     const onSubmit = (data) => {
         loginUser(data).then((data) => {
