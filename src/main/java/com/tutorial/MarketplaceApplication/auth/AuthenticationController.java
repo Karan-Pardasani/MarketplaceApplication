@@ -15,16 +15,24 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody RegisterRequest request
     ){
+        if(request.getEmail() == null || request.getPassword() == null){
+            return ResponseEntity.badRequest().body("Email Address and Password is required");
+        }
+
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody AuthenticationRequest request
     ){
+        if(request.getEmail() == null || request.getPassword() == null){
+            return ResponseEntity.badRequest().body("Email Address and Password is required");
+        }
+
         return ResponseEntity.ok(service.authenticate(request));
     }
 

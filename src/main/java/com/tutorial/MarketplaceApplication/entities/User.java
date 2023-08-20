@@ -25,11 +25,27 @@ public class User implements UserDetails {
     private Integer id;
     private String firstname;
     private String lastname;
+
+    @Column(nullable = false, unique = true)
     private String email;
     private String password;
 
+    private String streetAddress;
+    private String city;
+
+    private String state;
+    private String zipCode;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public String getAddress(){
+        StringBuilder address = new StringBuilder("");
+        address.append(streetAddress + " ");
+        address.append(city+" ");
+        address.append(state+" ");
+        address.append(zipCode+" ");
+        return address.toString();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

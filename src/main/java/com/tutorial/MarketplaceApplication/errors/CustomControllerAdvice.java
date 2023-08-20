@@ -1,6 +1,8 @@
 package com.tutorial.MarketplaceApplication.errors;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,6 +24,34 @@ public class CustomControllerAdvice {
                         .build(), HttpStatus.UNAUTHORIZED
         );
     }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ErrorResponse> handleExpiredJwtExceptions(Exception e){
+        ExpiredJwtException expiredJwtException = (ExpiredJwtException) e;
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        return new ResponseEntity<>(
+                ErrorResponse
+                        .builder()
+                        .status(status.name())
+                        .message("Your session is expired. Please log in again.")
+                        .build(),
+                status);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundExceptions(Exception e){
+        UserNotFoundException userNotFoundException = (UserNotFoundException) e;
+        HttpStatus status = userNotFoundException.getStatus();
+
+        return new ResponseEntity<>(
+                ErrorResponse
+                        .builder()
+                        .status(status.name())
+                        .message(userNotFoundException.getMessage())
+                        .data(userNotFoundException.getData())
+                        .build(),
+                status);
+     }
 
     @ExceptionHandler(CustomErrorException.class)
     public ResponseEntity<ErrorResponse> handleCustomErrorExceptions(Exception e){
