@@ -16,7 +16,6 @@ function Login({ user, setToken, addFlashMessage, removeFlashMessage }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("////");
         if(user.auth.token != null){
             navigate("/");
         }    
@@ -24,20 +23,12 @@ function Login({ user, setToken, addFlashMessage, removeFlashMessage }) {
     });
 
     const onSubmit = (data) => {
-        loginUser(data).then((data) => {
-            if(data.token != null){
-                setToken({"token": data.token});
-                localStorage.setItem("token", data.token);
+        loginUser(data).then((response) => {
+            console.log(response);
+            if(response.status == 200){
+                setToken({"token": response.token});
+                localStorage.setItem("token", response.token);
                 navigate("/");                
-            }else{
-                let messageObj = {}
-                messageObj.id = uuidv4();
-                messageObj.message = data.message
-                messageObj.type = "error"
-                addFlashMessage(messageObj);
-                setTimeout(() => {
-                    removeFlashMessage(messageObj.id);
-                }, 5);
             }
         });
     }
@@ -84,7 +75,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setToken: (payload) => {
-            console.log("****",payload);
             dispatch(setToken(payload));
         },
         addFlashMessage: (payload) => {

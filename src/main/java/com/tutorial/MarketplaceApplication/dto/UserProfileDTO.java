@@ -17,6 +17,7 @@ public class UserProfileDTO {
     private String streetAddress;
     private String city;
 
+    private String phoneNumber;
     private String state;
     private String zipCode;
     public String getAddress(){
@@ -36,6 +37,7 @@ public class UserProfileDTO {
         this.city = user.getCity();
         this.state = user.getState();
         this.zipCode = user.getZipCode();
+        this.phoneNumber = user.getPhoneNumber();
     }
 
     public String getUsername() {

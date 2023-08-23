@@ -21,9 +21,9 @@ public class UserProfileRepository{
 
     public Optional<UserProfileDTO> updateUserProfile(UserProfileDTO userProfileDTO) {
 
-        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = this.getCurrentUser();
         Optional<User> user = this.userRepository.findByEmail(userProfileDTO.getEmail());
-        if(user.isPresent()) {
+        if( !currentUser.getEmail().equals(userProfileDTO.getEmail()) && user.isPresent()) {
             throw new DuplicateUserException(HttpStatus.BAD_REQUEST, "The email address is already in use for a different account");
         }
 
@@ -41,8 +41,25 @@ public class UserProfileRepository{
             currentUser.setState(userProfileDTO.getState());
         if (userProfileDTO.getZipCode() != null)
             currentUser.setZipCode(userProfileDTO.getZipCode());
+        if(userProfileDTO.getPhoneNumber() != null)
+            currentUser.setPhoneNumber(userProfileDTO.getPhoneNumber());
         this.userRepository.save(currentUser);
         Optional<UserProfileDTO> response = Optional.of(new UserProfileDTO(currentUser));
         return response;
+    }
+
+    public Optional<User> getUser(String id) {
+        return userRepository.findById(Integer.valueOf(id));
+    }
+
+    public User getCurrentUser() {
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user;
+    }
+
+    public void updatePassword(String passwordEncoded) {
+        User user = getCurrentUser();
+        user.setPassword(passwordEncoded);
+        this.userRepository.save(user);
     }
 }

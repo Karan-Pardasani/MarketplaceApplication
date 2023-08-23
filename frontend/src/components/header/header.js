@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import './header.css';
 import {connect} from "react-redux";
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getCurrentUserProfile } from '../../services/userProfile/userProfile';
+import { setUserInfo } from '../../redux/user/userInfo/userInfoSlice';
+import { logout } from '../../services/auth/authenticate';
 
-function Header({ user }) {
+function Header({ userInfo, user, setUserInfo }) {
 
+    useEffect(()=>{
 
+        if(user.auth.token != null && userInfo.info.firstname == null){
+            // call the user info and update User Info
+            getCurrentUserProfile().then((response)=>{
+                console.log(response);
+                setUserInfo(response);
+            });
+        }
+
+    },[]);
+
+    const navigate = useNavigate();
 
     return (
     <Navbar>
@@ -19,16 +34,12 @@ function Header({ user }) {
             {
                 (user.auth.token != null) ? (
 
-                    <NavDropdown title={user.info.firstname} id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                        Another action
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">
-                        Separated link
-                    </NavDropdown.Item>
+                    <NavDropdown className='navTitle' title={`${userInfo.info.firstname || ""} ${userInfo.info.lastname || ""}`} id="basic-nav-dropdown">
+                        <NavDropdown.Item href="/user-profile">Profile</NavDropdown.Item>
+                        <NavDropdown.Item href="/change-password">Change Password</NavDropdown.Item>
+                        <NavDropdown.Item href="/sell">Sell an Item</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item onClick={()=>{logout();navigate("/");}}> Logout</NavDropdown.Item>
                     </NavDropdown>
 
                 ) : (
@@ -44,10 +55,19 @@ function Header({ user }) {
     )
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUserInfo: (payload) => {
+            dispatch(setUserInfo(payload));
+        }
+    }
+}
+
 const mapStateToProps = (state) => {
     return {
+        userInfo: state.userInfo,
         user: state.user
     }
 }
 
-export default connect(mapStateToProps, null)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

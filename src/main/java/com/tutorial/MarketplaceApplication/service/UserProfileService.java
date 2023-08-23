@@ -1,8 +1,14 @@
 package com.tutorial.MarketplaceApplication.service;
 
+import com.tutorial.MarketplaceApplication.auth.AuthenticationResponse;
 import com.tutorial.MarketplaceApplication.dto.UserProfileDTO;
+import com.tutorial.MarketplaceApplication.dto.request.ChangePasswordRequest;
 import com.tutorial.MarketplaceApplication.entities.User;
+import com.tutorial.MarketplaceApplication.errors.IncorrectPasswordException;
 import com.tutorial.MarketplaceApplication.repository.UserProfileRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,8 +20,17 @@ public class UserProfileService {
 
     private UserProfileRepository userProfileRepository;
 
-    public UserProfileService(UserProfileRepository userProfileRepository){
+    private PasswordEncoder passwordEncoder;
+
+    private JwtService jwtService;
+
+
+    public UserProfileService(UserProfileRepository userProfileRepository,
+                              PasswordEncoder passwordEncoder,
+                              JwtService jwtService){
         this.userProfileRepository = userProfileRepository;
+        this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<UserProfileDTO> updateUserProfile(@RequestBody UserProfileDTO userProfileDTO){
@@ -23,4 +38,28 @@ public class UserProfileService {
         return response;
     }
 
+    public Optional<UserProfileDTO> getUserProfile(String id) {
+        Optional<User> user = null;
+        if(id == null){
+            user = Optional.of(userProfileRepository.getCurrentUser());
+        }else{
+            user = userProfileRepository.getUser(id);
+        }
+        Optional<UserProfileDTO> userProfileDTO = Optional.empty();
+        if(user.isPresent()){
+            userProfileDTO = Optional.of(new UserProfileDTO(user.get()));
+        }
+        return userProfileDTO;
+    }
+
+    public String updatePassword(ChangePasswordRequest changePasswordRequest) {
+        User currentUser = userProfileRepository.getCurrentUser();
+        if( passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), currentUser.getPassword()) == false){
+            throw new IncorrectPasswordException();
+        }
+        String passwordEncoded = passwordEncoder.encode(changePasswordRequest.getNewPassword());
+        userProfileRepository.updatePassword(passwordEncoded);
+        String token = jwtService.generateToken(currentUser);
+        return token;
+    }
 }

@@ -6,13 +6,11 @@ function MessageComponent({messages}){
     messages.forEach(element => {
             switch(element.type){
                 case "success":
-                    console.log("success!!");
                     toast.success(element.message, {
                         position: element.position || toast.POSITION.TOP_CENTER
                     });
-                    ;
+                    break;
                 case "error":
-                    console.log("error!!");
                     toast.error(element.message, {
                         position: element.position || toast.POSITION.TOP_CENTER,
                         autoClose: 5000,
@@ -25,12 +23,10 @@ function MessageComponent({messages}){
                     });
                     break;
                 case "info":
-                    console.log("info!!");
                     toast.info(element.message, {
                         position: element.position || toast.POSITION.TOP_CENTER
                     });
                 default:
-                    console.log("default!!");
                     toast.info(element.message,{
                         position: element.position || toast.POSITION.TOP_CENTER
                     })

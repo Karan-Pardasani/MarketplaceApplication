@@ -7,9 +7,7 @@ import Footer from '../components/footer/footer';
 
 function Home({ user}) {
 
-  console.log("___",user);
-
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // useEffect(()=>{
   //   if( user.auth.token == null){

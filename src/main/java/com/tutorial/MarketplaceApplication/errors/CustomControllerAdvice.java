@@ -16,13 +16,26 @@ public class CustomControllerAdvice {
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthenticationExceptions(Exception e){
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         return new ResponseEntity<>(
                 ErrorResponse
                         .builder()
-                        .status(HttpStatus.UNAUTHORIZED.name())
+                        .status(status.name())
+                        .code(status.value())
                         .message("Username or Password is incorrect.")
-                        .build(), HttpStatus.UNAUTHORIZED
+                        .build(), status
         );
+    }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<ErrorResponse> handleIncorrectPasswordExceptions(Exception e){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(ErrorResponse
+                .builder()
+                .status(status.name())
+                .code(status.value())
+                .message("The current password you have entered is incorrect.")
+                .build(), status);
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
@@ -33,6 +46,7 @@ public class CustomControllerAdvice {
                 ErrorResponse
                         .builder()
                         .status(status.name())
+                        .code(status.value())
                         .message("Your session is expired. Please log in again.")
                         .build(),
                 status);
@@ -47,6 +61,7 @@ public class CustomControllerAdvice {
                 ErrorResponse
                         .builder()
                         .status(status.name())
+                        .code(status.value())
                         .message(userNotFoundException.getMessage())
                         .data(userNotFoundException.getData())
                         .build(),
@@ -68,6 +83,7 @@ public class CustomControllerAdvice {
                 ErrorResponse
                         .builder()
                         .status(status.name())
+                        .code(status.value())
                         .message(customErrorException.getMessage())
                         .stackTrace(stackTrace)
                         .data(customErrorException.getData())
@@ -89,6 +105,7 @@ public class CustomControllerAdvice {
                 ErrorResponse
                         .builder()
                         .status(status.name())
+                        .code(status.value())
                         .message(e.getMessage())
                         .stackTrace(stackTrace)
                         .build(),

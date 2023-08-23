@@ -11,6 +11,10 @@
     text-decoration: none;
 }
 
+.navTitle{
+  font-weight: 500;
+  color: #c24244 !important;
+}
 .navbar-brand {
     letter-spacing: 3px;
     color: #c24244 !important;

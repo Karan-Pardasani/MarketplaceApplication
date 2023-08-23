@@ -17,9 +17,6 @@ function Register({user, setToken, addFlashMessage, removeFlashMessage}) {
     const [response, setResponse] = useState("");
     const navigate = useNavigate();
 
-
-    console.log(response);
-
     useEffect(() => {
 
         if(user.auth.token != null){
@@ -30,7 +27,6 @@ function Register({user, setToken, addFlashMessage, removeFlashMessage}) {
 
 
     const onSubmit = (data) => {
-        console.log(data);
         registerUser(data).then((res) => {
             if (res.status == "CONFLICT"){
                 // setResponse(res.message);
@@ -94,9 +90,6 @@ function Register({user, setToken, addFlashMessage, removeFlashMessage}) {
                     <label className='mb-3' htmlFor='confirmPassword'>Confirm Password</label>
                     <input type='password' className='form-control' {...register("confirmPassword",{
                         validate: (v) => {
-                            console.log("$$$$$$");
-                            console.log(getValues("password"));
-                            console.log(v)
                             return v ==  getValues("password") || "Confirm password should match the password field.";
                         }
                     })} />
