@@ -1,13 +1,10 @@
 package com.tutorial.MarketplaceApplication.service;
 
-import com.tutorial.MarketplaceApplication.auth.AuthenticationResponse;
-import com.tutorial.MarketplaceApplication.dto.UserProfileDTO;
+import com.tutorial.MarketplaceApplication.dto.response.UserProfileDTO;
 import com.tutorial.MarketplaceApplication.dto.request.ChangePasswordRequest;
 import com.tutorial.MarketplaceApplication.entities.User;
 import com.tutorial.MarketplaceApplication.errors.IncorrectPasswordException;
 import com.tutorial.MarketplaceApplication.repository.UserProfileRepository;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;

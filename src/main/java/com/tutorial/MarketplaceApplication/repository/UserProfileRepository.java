@@ -1,13 +1,12 @@
 package com.tutorial.MarketplaceApplication.repository;
 
-import com.tutorial.MarketplaceApplication.dto.UserProfileDTO;
+import com.tutorial.MarketplaceApplication.dto.response.UserProfileDTO;
 import com.tutorial.MarketplaceApplication.entities.User;
 import com.tutorial.MarketplaceApplication.errors.DuplicateUserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Repository

@@ -1,4 +1,4 @@
-package com.tutorial.MarketplaceApplication.dto;
+package com.tutorial.MarketplaceApplication.dto.response;
 
 import com.tutorial.MarketplaceApplication.entities.User;
 import lombok.AllArgsConstructor;
