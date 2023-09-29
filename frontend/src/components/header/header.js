@@ -17,7 +17,8 @@ function Header({ userInfo, user, setUserInfo }) {
             // call the user info and update User Info
             getCurrentUserProfile().then((response)=>{
                 console.log(response);
-                setUserInfo(response);
+                if(response != null)
+                    setUserInfo(response);
             });
         }
 
@@ -38,6 +39,7 @@ function Header({ userInfo, user, setUserInfo }) {
                         <NavDropdown.Item href="/user-profile">Profile</NavDropdown.Item>
                         <NavDropdown.Item href="/change-password">Change Password</NavDropdown.Item>
                         <NavDropdown.Item href="/sell">Sell an Item</NavDropdown.Item>
+                        <NavDropdown.Item href="/product-template">Product Templates</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item onClick={()=>{logout();navigate("/");}}> Logout</NavDropdown.Item>
                     </NavDropdown>

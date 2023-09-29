@@ -17,7 +17,7 @@ async function getCurrentUserProfile(){
         return response;
     }).catch((error)=>{
         store.dispatch(addFlashMessage({
-            message: error.responseJSON.message,
+            message: (error.responseJSON && error.responseJSON.message ? error.responseJSON.message : "There is some error. Please contact the site admin."),
             type: "error"
         }));
         return error.responseJSON;
@@ -44,7 +44,7 @@ async function getUserProfile(data){
         return response;
     }).catch((error)=>{
         store.dispatch(addFlashMessage({
-            message: error.responseJSON.message,
+            message: (error.responseJSON && error.responseJSON.message ? error.responseJSON.message : "There is some error. Please contact the site admin."),
             type: "error"
         }));
         return error.responseJSON;
@@ -68,7 +68,7 @@ async function updateUserProfile(data){
         return response;
     }).catch((error) => {
         store.dispatch(addFlashMessage({
-            message: error.responseJSON.message,
+            message: (error.responseJSON && error.responseJSON.message ? error.responseJSON.message : "There is some error. Please contact the site admin."),
             type: "error"
         }));
         return error.responseJSON;

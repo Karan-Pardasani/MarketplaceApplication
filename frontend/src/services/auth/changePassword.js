@@ -28,7 +28,7 @@ async function changePassword(data){
 
     }).catch((error)=>{
         store.dispatch(addFlashMessage({
-            message: error.responseJSON.message,
+            message: (error.responseJSON && error.responseJSON.message ? error.responseJSON.message : "There is some error. Please contact the site admin."),
             type: "error"
         }));
         return error.responseJSON;
