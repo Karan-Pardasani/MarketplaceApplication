@@ -6,7 +6,6 @@ async function changePassword(data){
     const {password, newPassword, confirmNewPassword} = data;
     const { REACT_APP_BACKEND_URL } = process.env;
     const token = store.getState().user.auth.token;
-    console.log(data);
     const result = await $.post({
         url: `${REACT_APP_BACKEND_URL}/user-profile/update-password`,
         headers: {

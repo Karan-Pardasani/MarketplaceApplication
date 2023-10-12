@@ -22,16 +22,12 @@ function EditUserProfile(props) {
                 props.setUserInfo(response);
                 navigate(-1);
             }
-            console.log(response);
         })
     }
-    console.log(errors);
     
     useEffect(()=>{
         getCurrentUserProfile().then((response)=>{
             if(response.status == 200){
-                console.log("**reset**");
-                console.log(response);
                 reset(response);
             }
         })

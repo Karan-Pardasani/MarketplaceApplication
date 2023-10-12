@@ -16,7 +16,6 @@ function Header({ userInfo, user, setUserInfo }) {
         if(user.auth.token != null && userInfo.info.firstname == null){
             // call the user info and update User Info
             getCurrentUserProfile().then((response)=>{
-                console.log(response);
                 if(response != null)
                     setUserInfo(response);
             });

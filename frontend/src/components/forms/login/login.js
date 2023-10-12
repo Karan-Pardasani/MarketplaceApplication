@@ -24,7 +24,6 @@ function Login({ user, setToken, addFlashMessage, removeFlashMessage }) {
 
     const onSubmit = (data) => {
         loginUser(data).then((response) => {
-            console.log(response);
             if(response.status == 200){
                 setToken({"token": response.token});
                 localStorage.setItem("token", response.token);
