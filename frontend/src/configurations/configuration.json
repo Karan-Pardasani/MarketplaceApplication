@@ -1,0 +1,20 @@
+{
+    "SECTION_TYPES": [
+      {
+        "value": "carousel",
+        "text": "Carousel"
+      },
+      {
+        "value": "text-editor",
+        "text": "Text Editor"
+      },
+      {
+        "value": "table",
+        "text": "Table"
+      },
+      {
+        "value": "form",
+        "text": "Form"
+      }
+  ]
+}

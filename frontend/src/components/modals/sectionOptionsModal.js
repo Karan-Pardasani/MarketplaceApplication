@@ -1,27 +1,57 @@
 ////// NOT USING YET....
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Row, Col, Container } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import './Modals.css';
-function SectionOptionsModal(props) {
+import configuration from '../../configurations/configuration.json'
+import EditSection from '../sections/EditSection/EditSection';
 
-  const {setShowModal, showModal} = props;
-  const {register, handleSubmit, formState: {errors}, control} = useForm();
+
+function SectionOptionsModal(props) {
+  const {setShowModal, showModal, selectedSection, 
+    closeModal, section, resetForm, setResetForm, addImages, updateImage} = props;
+
+  let defaultValues = {
+    section_title: "",
+    section_type: "",
+    section_order: ""
+  }
+  
+  let submitFunction = null;
+
+  if(selectedSection === -1)
+  {
+    submitFunction = (data) => {
+      
+      props.addSection(data);
+    };
+  }else
+  {
+    submitFunction = (data) => {
+       
+      props.updateSection(data);
+    };
+
+    defaultValues = {
+      section_title: section.section_title,
+      section_type: section.section_type,
+      section_order: section.section_order
+    }
+  }
   const type_options = [
     {
       value: "",
       text: ""
     },
-    {
-      value: "carousel",
-      text: "Carousel"
-    },
-    {
-      value: "text-editor",
-      text: "Text Editor"
-    }
+    ...configuration["SECTION_TYPES"]
   ];
-  
+  console.log(defaultValues);
+  const {register, handleSubmit, formState: {errors}, control, reset} = useForm({
+    defaultValues: defaultValues,
+    shouldUnregister: true
+  });
+
+  useEffect(()=>reset(), [resetForm]);
 
   return (
     <>
@@ -32,12 +62,14 @@ function SectionOptionsModal(props) {
               centered>
         <Modal.Header >
           <Modal.Title id="contained-modal-title-vcenter">
-            <h4>Add New Section</h4>
+            {
+              selectedSection === -1 ? (<h4>Add New Section</h4>) : (<h4>Edit Section</h4>)
+            }
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container fluid>
-            <Form onSubmit={handleSubmit(props.addSection)}>
+            <Form onSubmit={handleSubmit(submitFunction)}>
               <Row>
                 <Col>
                   <Form.Group controlId='title_input'>
@@ -97,7 +129,7 @@ function SectionOptionsModal(props) {
                     <Controller
                       name='section_order'
                       control={control}
-                      defaultValue={""}
+                      defaultValue={0}
                       render={({field}) => (
                         <Form.Control
                           className='w-50'
@@ -111,8 +143,24 @@ function SectionOptionsModal(props) {
                   </Form.Group>
                 </Col>
               </Row>
-              <Button className='mt-3 pull-right' type='submit'><p>Add</p></Button>
-              <Button className='mt-3 ml-4 pull-right' onClick={() => setShowModal(false)}><p>Close</p></Button>
+              {
+                selectedSection >= 0 ? (
+                  <>
+                    <hr className='mt-5 mb-5'/>
+                    <EditSection
+                      selectedSection={selectedSection} 
+                      section={section}
+                      addImages={addImages}
+                      updateImage={updateImage}/>
+                  </>
+                ) : ( 
+                  null
+                )
+              }
+              <Button variant='success' className='mt-3 pull-right' type='submit'>
+                <p>Save</p>
+              </Button>
+              <Button variant='success' className='mt-3 ml-4 pull-right' onClick={() => {reset();closeModal();}}><p>Close</p></Button>
             </Form>
           </Container>
         </Modal.Body>
