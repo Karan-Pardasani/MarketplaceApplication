@@ -10,7 +10,7 @@ function TextEditorSection() {
     <Editor
       editorState={editorState}
       onEditorStateChange={setEditorState}
-      
+      editorStyle={{border: "1px solid lightgrey"}}
     />
   )
 }
