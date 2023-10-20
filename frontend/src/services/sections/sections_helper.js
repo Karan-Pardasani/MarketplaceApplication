@@ -9,6 +9,23 @@ export function create_new_section(data) {
         carousel_items: []
       }
       break;
+    
+    case "text-editor": 
+      data = {
+        ...data,
+        editor_content: {}
+      }
+      break;
+    case "form":
+      data = {
+        ...data,
+        groups:[
+          {
+            title: "",
+            fields: []
+          }
+        ]
+      }
   
     default:
       break;

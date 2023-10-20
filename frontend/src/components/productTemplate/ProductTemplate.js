@@ -107,6 +107,27 @@ function ProductTemplate() {
     closeModal();
   }
 
+  const addGroup = (section_idx) => {
+    var oldSectionDetails = [...sectionDetails];
+    oldSectionDetails[section_idx].groups.push({
+      title: "",
+      fields: [],
+    });
+    setSectionDetails(oldSectionDetails)
+  }
+
+  const addField = (section_idx, group_idx) => {
+    var oldSectionDetails = [...sectionDetails];
+    oldSectionDetails[section_idx].groups[group_idx].fields.push({
+      title: "",
+      width: null,
+      field_type: "text",
+      options: "",
+      editable: false
+    });
+    setSectionDetails(oldSectionDetails);
+  }
+
   console.log(errors);
 
   return (
@@ -187,7 +208,9 @@ function ProductTemplate() {
         closeModal={closeModal}
         resetForm={resetForm}
         setResetForm={setResetForm}
-        updateImage={updateImage}/>
+        updateImage={updateImage}
+        addGroup={addGroup}
+        addField={addField}/>
     </>
   )
 }

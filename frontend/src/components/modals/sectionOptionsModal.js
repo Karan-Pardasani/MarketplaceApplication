@@ -9,7 +9,7 @@ import EditSection from '../sections/EditSection/EditSection';
 
 function SectionOptionsModal(props) {
   const {setShowModal, showModal, selectedSection, 
-    closeModal, section, resetForm, setResetForm, addImages, updateImage} = props;
+    closeModal, section, resetForm, setResetForm, addImages, updateImage, addGroup, addField} = props;
 
   let defaultValues = {
     section_title: "",
@@ -151,7 +151,9 @@ function SectionOptionsModal(props) {
                       selectedSection={selectedSection} 
                       section={section}
                       addImages={addImages}
-                      updateImage={updateImage}/>
+                      updateImage={updateImage}
+                      addGroup={addGroup}
+                      addField={addField}/>
                   </>
                 ) : ( 
                   null

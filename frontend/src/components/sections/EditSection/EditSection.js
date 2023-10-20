@@ -6,7 +6,7 @@ import TableEditSection from './TableEditSection';
 import TextEditorEditSection from './TextEditorEditSection';
 
 function EditSection(props) {
-  const {section, selectedSection, addImages, updateImage} = props;
+  const {section, selectedSection, addImages, updateImage, addGroup, addField} = props;
   var renderEditSection = null;
 
   switch (section.section_type) {
@@ -26,6 +26,8 @@ function EditSection(props) {
         return <FormEditSection
           section={section}
           selectedSection={selectedSection}
+          addGroup={addGroup}
+          addField={addField}
         />
       }
       break;
