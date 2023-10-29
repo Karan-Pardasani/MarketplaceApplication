@@ -10,7 +10,6 @@ export const authSlice = createSlice({
     },
     reducers:{
         setToken: (state, action) => {
-            console.log(action);
             state.auth.token = action.payload.token;
         }
     }

@@ -46,9 +46,6 @@ function SectionOptionsModal(props) {
     resetFormFunc();
     submitFunction(data);
   }
-
-  console.log("defaultValues");
-  console.log(defaultValues);
   
   const type_options = configuration["SECTION_TYPES"];
   const {handleSubmit, formState: {errors, isDirty, dirtyFields}, control, reset} = useForm({

@@ -8,7 +8,8 @@ import {
   ADD_TAGS, 
   UPDATE_SECTION,
   CAROUSEL_UPDATE_IMAGE_ACTION,
-  CAROUSEL_REMOVE_IMAGE_ACTION
+  CAROUSEL_REMOVE_IMAGE_ACTION,
+  TEXTEDITOR_CONTENT_UPDATE_ACTION
 } from "./constants"
 
 
@@ -16,9 +17,14 @@ const updateSection = createAction(UPDATE_SECTION);
 const addSection = createAction(ADD_SECTION);
 const addTags = createAction(ADD_TAGS);
 
+// CAROUSEL SECTION ACTIONS
 const addCarouselImageAction = createAction(CAROUSEL_ADD_IMAGE_ACTION);
 const updateCarouselImageAction = createAction(CAROUSEL_UPDATE_IMAGE_ACTION);
 const removeCarouselImageAction = createAction(CAROUSEL_REMOVE_IMAGE_ACTION);
+
+
+// TEXT EDITOR SECTION ACTIONS
+const updateContentTextEditorAction = createAction(TEXTEDITOR_CONTENT_UPDATE_ACTION);
 
 function addFlashMessage(payload){
     return {
@@ -42,5 +48,6 @@ export {
   addSection,
   addTags,
   updateCarouselImageAction,
-  removeCarouselImageAction
+  removeCarouselImageAction,
+  updateContentTextEditorAction
 }

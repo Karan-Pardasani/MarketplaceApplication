@@ -16,3 +16,6 @@ export const UPDATE_SECTION = "productTemplate/sections/updateSection"
 export const CAROUSEL_ADD_IMAGE_ACTION = "productTemplate/sections/carousel/addImage";
 export const CAROUSEL_UPDATE_IMAGE_ACTION = "productTemplate/sections/carousel/updateImage";
 export const CAROUSEL_REMOVE_IMAGE_ACTION = "productTemplate/sections/carousel/removeImage";
+
+// TEXT EDITOR SECTION ACTIONS
+export const TEXTEDITOR_CONTENT_UPDATE_ACTION = "productTemplate/sections/text-editor/updateContent";

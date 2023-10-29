@@ -1,6 +1,7 @@
 import { createReducer, current } from "@reduxjs/toolkit";
 import {CarouselSectionReducer} from "./CarouselSectionReducers";
 import { addSection, updateSection } from "../../actions";
+import { EditorState, convertToRaw } from "draft-js";
 
 
 const addSectionFunc = (state, action) => {
@@ -17,7 +18,11 @@ const addSectionFunc = (state, action) => {
         carousel_items: []
       }
       break;
-  
+    case "text-editor":
+      newSection={ ...newSection,
+        content: JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
+      }
+      break;
     default:
       break;
   }

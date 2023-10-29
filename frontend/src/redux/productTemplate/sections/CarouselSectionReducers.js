@@ -11,8 +11,6 @@ const addImagesFunc = (state, action) => {
   // }
   //////////////////////////
   const payload = action.payload;
-  console.log("payload: ");
-  console.log(payload);
   var section_index = payload.index;
   var files = payload.files;
   files.map((file, index) => {
