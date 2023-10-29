@@ -7,7 +7,7 @@ import Sections from '../../sections/Sections';
 import { connect } from 'react-redux';
 
 function NewProductTemplateForm(props) {
-  const {setShowModal, setEditSectionIndex} = props;
+  const {setShowModal, setEditSectionIndex, resetFormFunc} = props;
   const { control, register, handleSubmit, formState: {errors}, setValue } = useForm({
     defaultValues: {
       tags: [],
@@ -48,14 +48,15 @@ function NewProductTemplateForm(props) {
             </Col>
           </Row>
           <Row>
-            <Button variant='success' style={{width: "15%"}} onClick={() => {setShowModal(true)}}>
+            <Button variant='success' style={{width: "15%"}} onClick={() => {setEditSectionIndex(-1);resetFormFunc();setShowModal(true)}}>
                 <p>Add Section +</p>
             </Button>
           </Row>
           <Sections
             setShowModal={setShowModal}
             sections={sections} 
-            setEditSectionIndex={setEditSectionIndex}/>
+            setEditSectionIndex={setEditSectionIndex}
+            resetFormFunc={resetFormFunc}/>
             
           <Row className='mt-5'>
             <Button style={{width: "10%"}} size='sm' variant='success' onClick={handleSubmit(onSubmit)}>

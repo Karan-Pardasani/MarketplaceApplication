@@ -12,10 +12,10 @@ import { connect } from 'react-redux';
 import { addSection, updateSection } from '../../redux/actions';
 
 function SectionOptionsModal(props) {
-  const {showModal, setShowModal, editSectionIndex, setEditSectionIndex, sections, addSection, updateSection} = props;
+  const {showModal, setShowModal, editSectionIndex, setEditSectionIndex, sections, addSection, updateSection, resetFormFunc, resetForm} = props;
   const section = sections[editSectionIndex];
   var title = ( (editSectionIndex === -1) ? "Add New Section" : `Edit ${section.section_title}` );
-  
+
   let defaultValues = {
     section_title: "",
     section_type: "",
@@ -43,16 +43,20 @@ function SectionOptionsModal(props) {
   const onSubmit = (data) => {
     setShowModal(false);
     setEditSectionIndex(-1);
+    resetFormFunc();
     submitFunction(data);
   }
 
+  console.log("defaultValues");
+  console.log(defaultValues);
+  
   const type_options = configuration["SECTION_TYPES"];
   const {handleSubmit, formState: {errors, isDirty, dirtyFields}, control, reset} = useForm({
     defaultValues: defaultValues,
     shouldUnregister: true
   });
 
-  useEffect(()=>{reset()}, [section]);
+  useEffect(()=>{reset()}, [resetForm]);
 
   return (
     <>
@@ -119,7 +123,7 @@ function SectionOptionsModal(props) {
               <Button variant='success' className='mt-3 pull-right' type='submit'>
                 <p>Save</p>
               </Button>
-              <Button variant='success' className='mt-3 ml-4 pull-right' onClick={() => {setShowModal(false)}}><p>Close</p></Button>
+              <Button variant='success' className='mt-3 ml-4 pull-right' onClick={() => {setShowModal(false);setEditSectionIndex(-1);resetFormFunc();}}><p>Close</p></Button>
             </Form>
           </Container>
         </Modal.Body>

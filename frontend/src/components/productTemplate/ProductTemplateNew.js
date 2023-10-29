@@ -16,6 +16,11 @@ import NewProductTemplateForm from '../forms/addProductTemplate/NewProductTempla
 function ProductTemplateNew(props) {
 
   const {action, title} = props;
+  const [resetForm, setResetForm] = useState(false);
+
+  const resetFormFunc = () => {
+    setResetForm(!resetForm);
+  }
 
   let productTemplateComponent = null;
 
@@ -26,6 +31,7 @@ function ProductTemplateNew(props) {
   if(action == "New"){
     productTemplateComponent = () => {
       return <NewProductTemplateForm 
+        resetFormFunc={resetFormFunc}
         setEditSectionIndex={setEditSectionIndex}
         setShowModal={setShowModal}/>
     }
@@ -45,7 +51,9 @@ function ProductTemplateNew(props) {
         showModal = {showModal}
         setShowModal={setShowModal}
         editSectionIndex={editSectionIndex}
-        setEditSectionIndex={setEditSectionIndex}/>
+        setEditSectionIndex={setEditSectionIndex}
+        resetFormFunc={resetFormFunc}
+        resetForm={resetForm}/>
     </>
   )
 }

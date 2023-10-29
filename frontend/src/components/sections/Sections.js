@@ -7,11 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 function Sections(props) {
 
-  const {sections, setShowModal, setEditSectionIndex} = props;
+  const {sections, setShowModal, setEditSectionIndex, resetFormFunc} = props;
   const navigate = useNavigate();
 
   const openEditSection = (section_type, index) => {
     if(section_type == "carousel"){
+      resetFormFunc();
       setShowModal(true);
       setEditSectionIndex(index);
     }
