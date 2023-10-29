@@ -32,4 +32,21 @@ function FormEditSection(props) {
   )
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addGroup: (payload) => {
+
+    },
+    addField: (payload) => {
+
+    }
+  }
+}
+
+const mapStateToProps = (dispatch) => {
+  return {
+
+  }
+}
+
 export default FormEditSection

@@ -7,8 +7,9 @@ import { Button } from 'react-bootstrap';
 import SectionOptionsModal from '../modals/sectionOptionsModal';
 import Sections from '../sections/Sections';
 import { create_new_section } from '../../services/sections/sections_helper';
-function ProductTemplate() {
-
+function ProductTemplate(props) {
+  
+  const {action} = props;
   const [showModal, setShowModal] = useState(false);
   const [selectedSection, setSelectedSection] = useState(-1);
   const [resetForm, setResetForm] = useState(false);
@@ -40,8 +41,6 @@ function ProductTemplate() {
     // Function used to add images in the carousel and idx is the index of the carousel section
     var temp = [...sectionDetails];
     var newTemp = temp.map((section, index) => {
-      console.log("section: ",section);
-      console.log("index: ", index);
       if(index === idx){
         files.map((x, index) => {
           section.carousel_items.push({
@@ -49,8 +48,6 @@ function ProductTemplate() {
             order:    index,
             remove: false
           });
-          console.log("section");
-          console.log(section);
         });
       }
       return section;
@@ -64,14 +61,11 @@ function ProductTemplate() {
       var temp = [...sectionDetails]
       var image = temp[section_index].carousel_items[image_index];
       image.remove = !image.remove;
-      console.log(temp);
       setSectionDetails(temp);
     }else if(action === "edit"){
       var temp = [...sectionDetails];
       var image = temp[section_index].carousel_items[image_index];
       image.file_url = files[0].fileUrl;
-      console.log("edit Image");
-      console.log(temp);
       setSectionDetails(temp);
     }
   }

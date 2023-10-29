@@ -5,53 +5,54 @@ import { Controller, useForm } from 'react-hook-form';
 import './Modals.css';
 import configuration from '../../configurations/configuration.json'
 import EditSection from '../sections/EditSection/EditSection';
-
+import TextField from '../fields/TextField';
+import SelectField from '../fields/SelectField';
+import NumberInputField from '../fields/NumberInputField';
+import { connect } from 'react-redux';
+import { addSection, updateSection } from '../../redux/actions';
 
 function SectionOptionsModal(props) {
-  const {setShowModal, showModal, selectedSection, 
-    closeModal, section, resetForm, setResetForm, addImages, updateImage, addGroup, addField} = props;
-
+  const {showModal, setShowModal, editSectionIndex, setEditSectionIndex, sections, addSection, updateSection} = props;
+  const section = sections[editSectionIndex];
+  var title = ( (editSectionIndex === -1) ? "Add New Section" : `Edit ${section.section_title}` );
+  
   let defaultValues = {
     section_title: "",
     section_type: "",
     section_order: ""
   }
-  
+
   let submitFunction = null;
 
-  if(selectedSection === -1)
+  if(editSectionIndex === -1)
   {
-    submitFunction = (data) => {
-      
-      props.addSection(data);
-    };
-  }else
-  {
-    submitFunction = (data) => {
-       
-      props.updateSection(data);
-    };
+    submitFunction = addSection;
+  }
+  else{
 
+    submitFunction = (data) => {
+      updateSection({section: data, index:editSectionIndex})
+    };
     defaultValues = {
       section_title: section.section_title,
       section_type: section.section_type,
       section_order: section.section_order
     }
   }
-  const type_options = [
-    {
-      value: "",
-      text: ""
-    },
-    ...configuration["SECTION_TYPES"]
-  ];
-  console.log(defaultValues);
-  const {register, handleSubmit, formState: {errors}, control, reset} = useForm({
+
+  const onSubmit = (data) => {
+    setShowModal(false);
+    setEditSectionIndex(-1);
+    submitFunction(data);
+  }
+
+  const type_options = configuration["SECTION_TYPES"];
+  const {handleSubmit, formState: {errors, isDirty, dirtyFields}, control, reset} = useForm({
     defaultValues: defaultValues,
     shouldUnregister: true
   });
 
-  useEffect(()=>reset(), [resetForm]);
+  useEffect(()=>{reset()}, [section]);
 
   return (
     <>
@@ -62,98 +63,54 @@ function SectionOptionsModal(props) {
               centered>
         <Modal.Header >
           <Modal.Title id="contained-modal-title-vcenter">
-            {
-              selectedSection === -1 ? (<h4>Add New Section</h4>) : (<h4>Edit Section</h4>)
-            }
+            <h4>{title}</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container fluid>
-            <Form onSubmit={handleSubmit(submitFunction)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
               <Row>
                 <Col>
-                  <Form.Group controlId='title_input'>
-                    <Form.Label>
-                      Title
-                    </Form.Label>
-                    <Controller
-                      name='section_title'
-                      control={control}
-                      defaultValue={""}
-                      render={({field}) => (
-                        <Form.Control
-                          {...field}
-                          type='text'
-                          placeholder='Enter the title of the Section'
-                        />
-                      )}
-                    />
-                  </Form.Group>
+                  <TextField
+                    label="Title"
+                    name="section_title"
+                    control={control}
+                    defaultValue=""
+                    placeholder="Enter the title of the Section"
+                    group_id="title_input"
+                  />
                 </Col>
-                <Col>
-                  <Form.Group controlId='type_input'>
-                    <Form.Label>
-                        Type
-                    </Form.Label>
-
-                    <Controller
+                {
+                  (editSectionIndex === -1) ? (
+                  <Col>
+                    <SelectField
+                      label="Type"
                       name="section_type"
                       control={control}
-                      defaultValue={""}
-                      render={({field}) => 
-                        (<Form.Control
-                            as="select"
-                            value={field.value}
-                            onChange={ e => {
-                              console.log(field);
-                              field.onChange(e.target.value)
-                              }}>
-                              {
-                                type_options.map((obj) => 
-                                  <option key={obj.value} value={obj.value}>{obj.text}</option>
-                                )
-                              }
-                            ref={field.ref}
-                        </Form.Control>)}/>
-
-                  </Form.Group>
-                </Col>
+                      defaultValue=""
+                      options={type_options}/>
+                  </Col>
+                  ) : null
+                }
               </Row>
               <Row className='mt-4'>
                 <Col>
-                <Form.Group controlId='section_order_input'>
-                    <Form.Label>
-                        Section Order
-                    </Form.Label>
-
-                    <Controller
-                      name='section_order'
-                      control={control}
-                      defaultValue={0}
-                      render={({field}) => (
-                        <Form.Control
-                          className='w-50'
-                          {...field}
-                          type='number'
-                          placeholder='Enter the order of the Section'
-                        />
-                      )}
-                    />
-
-                  </Form.Group>
+                  <NumberInputField
+                    label="Section Order"
+                    name="section_order"
+                    control={control}
+                    defaultValue={0}
+                    placeholder="Enter the order of the Section"
+                    group_id="section_order_input"/>
                 </Col>
               </Row>
               {
-                selectedSection >= 0 ? (
+                editSectionIndex >= 0 ? (
                   <>
                     <hr className='mt-5 mb-5'/>
                     <EditSection
-                      selectedSection={selectedSection} 
-                      section={section}
-                      addImages={addImages}
-                      updateImage={updateImage}
-                      addGroup={addGroup}
-                      addField={addField}/>
+                      section={section} 
+                    />
                   </>
                 ) : ( 
                   null
@@ -162,7 +119,7 @@ function SectionOptionsModal(props) {
               <Button variant='success' className='mt-3 pull-right' type='submit'>
                 <p>Save</p>
               </Button>
-              <Button variant='success' className='mt-3 ml-4 pull-right' onClick={() => {reset();closeModal();}}><p>Close</p></Button>
+              <Button variant='success' className='mt-3 ml-4 pull-right' onClick={() => {setShowModal(false)}}><p>Close</p></Button>
             </Form>
           </Container>
         </Modal.Body>
@@ -171,4 +128,21 @@ function SectionOptionsModal(props) {
   )
 }
 
-export default SectionOptionsModal
+const mapStateToProps = (state) => {
+  return {
+    sections: state.productTemplate.sections
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addSection: (payload) => {
+      dispatch(addSection(payload));
+    },
+    updateSection: (payload) => {
+      dispatch(updateSection(payload));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SectionOptionsModal)

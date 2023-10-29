@@ -1,17 +1,46 @@
 // functions to create objects required to dispatch actions from outside React Components.
 
+import { createAction } from "@reduxjs/toolkit"
+import { 
+  CAROUSEL_ADD_IMAGE_ACTION, 
+  ADD_FLASH_MESSAGE_ACTION, 
+  ADD_SECTION, SET_TOKEN_ACTION,
+  ADD_TAGS, 
+  UPDATE_SECTION,
+  CAROUSEL_UPDATE_IMAGE_ACTION,
+  CAROUSEL_REMOVE_IMAGE_ACTION
+} from "./constants"
+
+
+const updateSection = createAction(UPDATE_SECTION);
+const addSection = createAction(ADD_SECTION);
+const addTags = createAction(ADD_TAGS);
+
+const addCarouselImageAction = createAction(CAROUSEL_ADD_IMAGE_ACTION);
+const updateCarouselImageAction = createAction(CAROUSEL_UPDATE_IMAGE_ACTION);
+const removeCarouselImageAction = createAction(CAROUSEL_REMOVE_IMAGE_ACTION);
+
 function addFlashMessage(payload){
     return {
-        type: "flashMessage/addFlashMessage",
+        type: ADD_FLASH_MESSAGE_ACTION,
         payload
     }
 }
 
 function setToken(payload){
     return {
-        type: "auth/setToken",
+        type: SET_TOKEN_ACTION,
         payload
     }
 }
 
-export {addFlashMessage, setToken}
+export {
+  addFlashMessage, 
+  setToken, 
+  updateSection, 
+  addCarouselImageAction,
+  addSection,
+  addTags,
+  updateCarouselImageAction,
+  removeCarouselImageAction
+}

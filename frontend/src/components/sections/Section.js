@@ -3,23 +3,25 @@ import CarouselSection from './CarouselSection/CarouselSection';
 import FormSection from './FormSection/FormSection';
 import TableSection from './TableSection/TableSection';
 import TextEditorSection from './TextEditorSection/TextEditorSection';
+import { connect } from 'react-redux';
 
 function Section(props) {
 
-  const {section, addImages, index, updateImage} = props;
+  // const {section, addImages, index, updateImage} = props;
 
+  const {section, index} = props;
+  const section_type = section.section_type;
+  
   let SectionToRender = null;
 
-  switch (section.section_type) {
+  switch (section_type) {
 
     case "carousel":
       SectionToRender = () => {
         return (
-        <CarouselSection 
-          section={section} 
-          addImages={addImages} 
-          index={index}
-          updateImage={updateImage}/>)};
+        <CarouselSection  
+          section={section}
+          index={index}/>)};
       break;
 
     case "form":
@@ -45,9 +47,25 @@ function Section(props) {
       break;
 
     default:
+      SectionToRender = () => {
+        return (
+          <h5>Not implemented yet!!</h5> 
+        )};
       break;
   }
   return <SectionToRender/>
 }
 
-export default Section
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+export default  connect(mapStateToProps, mapDispatchToProps)(Section)

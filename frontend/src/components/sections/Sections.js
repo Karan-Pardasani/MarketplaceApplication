@@ -2,16 +2,29 @@ import React from 'react'
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import './sections.css';
 import Section from './Section';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function Sections(props) {
-  const {sections, editSection, addImages, updateImage} = props;
+
+  const {sections, setShowModal, setEditSectionIndex} = props;
+  const navigate = useNavigate();
+
+  const openEditSection = (section_type, index) => {
+    if(section_type == "carousel"){
+      setShowModal(true);
+      setEditSectionIndex(index);
+    }
+    else{
+      console.log("redirect to appropriate component route");
+    }
+  }
+
   return (
     <>
       <Container fluid className='mt-5'>
         {
           sections.map((section, index) => {
-            console.log("index: ");
-            console.log(index);
             return(
             <section key={index}>
               <Row>
@@ -24,16 +37,14 @@ function Sections(props) {
                       </Card.Title>
                       </Col>
                       <Col>
-                        <Button className='float-right' variant='warning' onClick={() => editSection(index)}>Edit</Button>
+                        <Button className='float-right' variant='warning' onClick={() => {openEditSection(section.section_type, index)}}>Edit</Button>
                       </Col>
                     </Row>
                   </Card.Header>
                   <Card.Body>
                     <Section 
-                      index={index} 
                       section={section}
-                      addImages={addImages}
-                      updateImage={updateImage}/>
+                      index={index}/>
                   </Card.Body>
                 </Card>
               </Row>
@@ -46,4 +57,24 @@ function Sections(props) {
   )
 }
 
-export default Sections
+const mapStateToProps = (state) => {
+  return {
+    sections: state.productTemplate.sections
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      updateSection : (payload) => {
+        // dispatch(updateSection(payload))
+      },
+      addImages: (payload) => {
+        // dispatch(addImages(payload))
+      },
+      updateImage: (payload) => {
+        // dispatch(updateImage(payload))
+      }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sections)

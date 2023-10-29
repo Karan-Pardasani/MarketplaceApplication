@@ -5,12 +5,35 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Trash } from 'react-bootstrap-icons';
 import EditUploadButton from "../../buttons/editUploadButton";
+import { connect } from 'react-redux';
+import { addCarouselImageAction, removeCarouselImageAction, updateCarouselImageAction } from '../../../redux/actions';
 
 
 function CarouselEditSection(props) {
-  const {section, selectedSection, addImages, updateImage} = props;
-  console.log(section);
+  const {section, addImages, updateImage, removeImage} = props;
+  
+  const addImageCallbackFunc = (files) => {
+    if(files.length === 0)
+      return;
+    var payload = {index: section.section_index, files: []};
+    files.map((file) => {
+      payload.files.push(file.fileUrl);
+    });
+    addImages(payload);
+  }
 
+  const updateImageCallbackFunc = (files, item_index) => {
+    if(files.length == 0)
+      return;
+    var payload = {section_index: section.section_index, file: files[0].fileUrl, item_index}
+    updateImage(payload);
+  }
+
+  const removeImageCallbackFunc = (item_index) => {
+    var payload = {section_index: section.section_index, item_index};
+    removeImage(payload);
+  }
+  
   const generateCard = (index) => {
     const item = section.carousel_items[index];
     var imageStyle = { width: "200px", height: "200px"};
@@ -25,8 +48,8 @@ function CarouselEditSection(props) {
             <Container fluid>
               <Row>
                 <Col>
-                  <EditUploadButton callbackFunc={(files) => {updateImage("edit", selectedSection, index, files)}}/>
-                  <Button onClick={() => updateImage("remove", selectedSection, index, null)} variant='danger' size='sm' className='ml-2'><Trash/></Button>
+                  <EditUploadButton callbackFunc={(files) => {updateImageCallbackFunc(files, index)}}/>
+                  <Button onClick={() => removeImageCallbackFunc(index)} variant='danger' size='sm' className='ml-2'><Trash/></Button>
                 </Col>
               </Row>
             </Container>
@@ -38,7 +61,7 @@ function CarouselEditSection(props) {
 
   const carousel_items = [];
   for( let index = 0; index < section.carousel_items.length;){
-    const item = section.carousel_items[index]
+
     var curr_element = null;
     if(index+1<section.carousel_items.length ){
       curr_element = <Row>{generateCard(index)}{generateCard(index+1)}</Row>
@@ -49,13 +72,14 @@ function CarouselEditSection(props) {
     }
     carousel_items.push(curr_element);
   }
+
   return (
     <div>
       <Container fluid>
         <Row>
           <Col >
             <div className='float-right'>
-              <Uploader callbackFunc={(files) => {addImages(files, selectedSection)}}/>
+              <Uploader callbackFunc={addImageCallbackFunc}/>
             </div>
           </Col>
         </Row>
@@ -67,4 +91,23 @@ function CarouselEditSection(props) {
   )
 }
 
-export default CarouselEditSection
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addImages: (payload) => {
+      dispatch(addCarouselImageAction(payload));
+    },
+    updateImage: (payload) => {
+      dispatch(updateCarouselImageAction(payload));
+    },
+    removeImage: (payload) => {
+      dispatch(removeCarouselImageAction(payload));
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CarouselEditSection)

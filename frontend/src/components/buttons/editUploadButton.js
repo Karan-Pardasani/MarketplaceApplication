@@ -4,7 +4,7 @@ import { Pencil } from 'react-bootstrap-icons';
 import { Button } from 'react-bootstrap';
 const options = {
   apiKey: "free", // Get API keys from: www.bytescale.com
-  maxFileCount: 10
+  maxFileCount: 1
 };
 
 function EditUploadButton(props) {

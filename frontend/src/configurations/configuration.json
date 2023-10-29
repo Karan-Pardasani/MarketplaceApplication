@@ -1,6 +1,10 @@
 {
     "SECTION_TYPES": [
       {
+        "value": "",
+        "text": ""
+      },
+      {
         "value": "carousel",
         "text": "Carousel"
       },
