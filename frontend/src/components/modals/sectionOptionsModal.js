@@ -97,6 +97,7 @@ function SectionOptionsModal(props) {
               <Row className='mt-4'>
                 <Col>
                   <NumberInputField
+                    style={{width: "50%"}}
                     label="Section Order"
                     name="section_order"
                     control={control}
@@ -110,7 +111,7 @@ function SectionOptionsModal(props) {
                   <>
                     <hr className='mt-5 mb-5'/>
                     <EditSection
-                      section={section} 
+                      section_index={editSectionIndex} 
                     />
                   </>
                 ) : ( 

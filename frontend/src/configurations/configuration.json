@@ -20,5 +20,31 @@
         "value": "form",
         "text": "Form"
       }
+  ],
+  "FIELD_TYPES" : [
+    {
+      "value": "",
+      "text": ""
+    },
+    {
+      "value": "checkbox",
+      "text": "Checkbox"
+    },
+    {
+      "value": "dropdown",
+      "text": "Dropdown"
+    },
+    {
+      "value": "radio",
+      "text": "Radio Button"
+    },
+    {
+      "value": "text-area",
+      "text": "Text Area"
+    },
+    {
+      "value": "text-field",
+      "text": "Text Field"
+    }
   ]
 }

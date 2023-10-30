@@ -2,6 +2,8 @@ import { createReducer, current } from "@reduxjs/toolkit";
 import {CarouselSectionReducer} from "./CarouselSectionReducers";
 import { addSection, updateSection } from "../../actions";
 import { EditorState, convertToRaw } from "draft-js";
+import { FormSectionReducers } from "./FormSectionReducers";
+import { TextEditorSectionReducers } from "./TextEditorSectionReducers";
 
 
 const addSectionFunc = (state, action) => {
@@ -23,6 +25,11 @@ const addSectionFunc = (state, action) => {
         content: JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
       }
       break;
+    case "form":
+      newSection={ ...newSection,
+        groups: []
+      }
+      break;
     default:
       break;
   }
@@ -40,11 +47,18 @@ const filterCarouselActions = (action) => {
   return action.type.includes("carousel");
 }
 
-export const GeneralSectionReducer = createReducer({}, (builder) => {
-  builder.addCase(addSection, (state, action) => {
-    return addSectionFunc(state, action);
-  });
+const filterTextEditorActions = (action) => {
+  return action.type.includes("text-editor");
+}
 
+const filterFormSectionActions = (action) => {
+  return action.type.includes("form");
+}
+
+export const GeneralSectionReducer = createReducer({}, (builder) => {
+  builder.addCase(addSection,addSectionFunc);
   builder.addCase(updateSection, updateSectionFunc)
   builder.addMatcher(filterCarouselActions, CarouselSectionReducer);
+  builder.addMatcher(filterTextEditorActions, TextEditorSectionReducers);
+  builder.addMatcher(filterFormSectionActions, FormSectionReducers);
 });

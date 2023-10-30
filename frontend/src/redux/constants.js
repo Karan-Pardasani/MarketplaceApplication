@@ -19,3 +19,7 @@ export const CAROUSEL_REMOVE_IMAGE_ACTION = "productTemplate/sections/carousel/r
 
 // TEXT EDITOR SECTION ACTIONS
 export const TEXTEDITOR_CONTENT_UPDATE_ACTION = "productTemplate/sections/text-editor/updateContent";
+
+// FORM SECTION ACTIONS
+export const ADD_GROUP_FORM_SECTION = "productTemplate/sections/form/addGroup";
+export const ADD_FIELD_FORM_SECTION = "productTemplate/sections/form/groups/addField"

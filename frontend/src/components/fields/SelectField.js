@@ -25,7 +25,6 @@ function SelectField(props) {
                     <option key={obj.value} value={obj.value}>{obj.text}</option>
                   )
                 }
-              ref={field.ref}
           </Form.Control>)}/>
     </>
   )

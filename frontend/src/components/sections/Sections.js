@@ -11,12 +11,13 @@ function Sections(props) {
   const navigate = useNavigate();
 
   const openEditSection = (section_type, index) => {
-    if(section_type == "carousel"){
+    if(section_type == "carousel" || section_type == "text-editor"){
       resetFormFunc();
       setShowModal(true);
       setEditSectionIndex(index);
     }
     else{
+      navigate(`/product-template/sections/${index}/edit`);
       console.log("redirect to appropriate component route");
     }
   }

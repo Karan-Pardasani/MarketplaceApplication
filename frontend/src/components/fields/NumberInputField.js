@@ -7,7 +7,7 @@ function NumberInputField(props) {
   const {label, name, control, defaultValue, style, placeholder_, group_id} = props;
   var placeholder = placeholder_ || "Enter the value";
   return (
-    <Form.Group controlId={`${group_id}`}>
+    <Form.Group  controlId={`${group_id}`}>
           <Form.Label>{label}</Form.Label>
           <Controller
             name={`${name}`}
@@ -15,7 +15,7 @@ function NumberInputField(props) {
             defaultValue={defaultValue}
             render={({field})=>{
               return (
-              <Form.Control style={style} className='w-50' size='sm' {...field} type='number'
+              <Form.Control value={field.value} style={style} size='sm' {...field} type='number'
                 placeholder={placeholder}
               />)
             }}

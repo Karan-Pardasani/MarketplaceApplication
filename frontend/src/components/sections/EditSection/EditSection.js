@@ -5,11 +5,15 @@ import FormEditSection from './FormEditSection';
 import TableEditSection from './TableEditSection';
 import TextEditorEditSection from './TextEditorEditSection';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 function EditSection(props) {
-  const {section} = props;
+  const {section_index, sections} = props;
+  const {id} = useParams();
+  var index = section_index || id;
   // const {section, selectedSection, addImages, updateImage, addGroup, addField} = props;
-  var renderEditSection = null;
+  var section = sections[index];
+  var renderEditSection = ()=> {return null};
 
   switch (section.section_type) {
     case "carousel":
@@ -48,7 +52,7 @@ function EditSection(props) {
 
 const mapStateToProps = (state) => {
   return {
-    
+    sections: state.productTemplate.sections
   }
 }
 
