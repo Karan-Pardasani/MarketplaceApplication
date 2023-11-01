@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import Header from '../header/header';
-import Footer from '../footer/footer';
 import './productTemplate.css'
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import {Container, Row } from 'react-bootstrap';
 import SectionOptionsModal from '../modals/sectionOptionsModal';
-import Sections from '../sections/Sections';
-import { create_new_section } from '../../services/sections/sections_helper';
 import { connect } from 'react-redux';
-import Tags from '../tags/Tags';
-import TextField from '../fields/TextField';
-import NewProductTemplate from '../forms/addProductTemplate/NewProductTemplateForm';
 import NewProductTemplateForm from '../forms/addProductTemplate/NewProductTemplateForm';
 
 function ProductTemplateNew(props) {
@@ -31,7 +24,7 @@ function ProductTemplateNew(props) {
   if(action == "New"){
     productTemplateComponent = () => {
       return <NewProductTemplateForm 
-        resetFormFunc={resetFormFunc}
+                resetFormFunc={resetFormFunc}
         setEditSectionIndex={setEditSectionIndex}
         setShowModal={setShowModal}/>
     }
@@ -46,7 +39,7 @@ function ProductTemplateNew(props) {
         </Row>
         {productTemplateComponent()}
       </Container>
-      <Footer/>
+      {/* <Footer/> */}
       <SectionOptionsModal
         showModal = {showModal}
         setShowModal={setShowModal}

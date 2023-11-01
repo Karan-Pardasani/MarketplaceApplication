@@ -38,7 +38,7 @@ function Header({ userInfo, user, setUserInfo }) {
                         <NavDropdown.Item href="/user-profile">Profile</NavDropdown.Item>
                         <NavDropdown.Item href="/change-password">Change Password</NavDropdown.Item>
                         <NavDropdown.Item href="/sell">Sell an Item</NavDropdown.Item>
-                        <NavDropdown.Item href="/product-template">Product Templates</NavDropdown.Item>
+                        <NavDropdown.Item href="/product-template2/new">Product Templates</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item onClick={()=>{logout();navigate("/");}}> Logout</NavDropdown.Item>
                     </NavDropdown>

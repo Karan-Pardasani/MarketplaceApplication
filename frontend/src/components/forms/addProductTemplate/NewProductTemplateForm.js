@@ -5,10 +5,11 @@ import TextField from '../../fields/TextField';
 import Tags from '../../tags/Tags';
 import Sections from '../../sections/Sections';
 import { connect } from 'react-redux';
+import { submitProductTemplateForm } from '../../../services/sections/sections_helper';
 
 function NewProductTemplateForm(props) {
-  const {setShowModal, setEditSectionIndex, resetFormFunc} = props;
-  const { control, register, handleSubmit, formState: {errors}, setValue } = useForm({
+  const {setShowModal, stateSections, setEditSectionIndex, resetFormFunc} = props;
+  const { control, register, handleSubmit, formState: {errors, dirtyFields}, setValue } = useForm({
     defaultValues: {
       tags: [],
       sections: []
@@ -19,14 +20,19 @@ function NewProductTemplateForm(props) {
     name: "sections",
     control,
   });
-
+  
   const onSubmit = (data) => {
     // API to store data in the backend
-    console.log(data);
+    console.log(dirtyFields);
+    submitProductTemplateForm(stateSections);
+  }
+
+  const onError = (errors) => {
+    console.log(errors);
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <Row>
             
             <Col>
@@ -69,7 +75,8 @@ function NewProductTemplateForm(props) {
 
 const mapStateToProps = (state) => {
   return {
-    title: state.productTemplate.title
+    title: state.productTemplate.title,
+    stateSections: state.productTemplate.sections
   }
 }
 

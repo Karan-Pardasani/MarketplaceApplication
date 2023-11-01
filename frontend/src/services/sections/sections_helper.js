@@ -1,37 +1,29 @@
 // Add functions that are related to sections
 import $ from 'jquery';
+import store from '../../redux/store';
 
-export function create_new_section(data) {
-  switch (data.section_type) {
-    case 'carousel':
-      data = {
-        ...data,
-        carousel_items: []
-      }
-      break;
-    
-    case "text-editor": 
-      data = {
-        ...data,
-        editor_content: {}
-      }
-      break;
-    case "form":
-      data = {
-        ...data,
-        groups:[
-          {
-            title: "",
-            fields: []
-          }
-        ]
-      }
-  
-    default:
-      break;
-  }
-  return data
-  
+export function create_new_section() {
+
+}
+
+export async function submitProductTemplateForm(data) {
+  const { REACT_APP_BACKEND_URL } = process.env;
+  console.log({data: data});
+  const state = store.getState();
+  const token = state.user.auth.token;
+  const result = await $.post({
+    url: `${REACT_APP_BACKEND_URL}/api/v1/product-template/create`,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+    data: JSON.stringify({data: data})
+  }).then((response, textStatus, jqxhr) => {
+    console.log(response.status);
+    return response;
+  }).catch((error) => {
+    console.log(error.responseJSON);
+  });  
 }
 
 export function uploadFile(files){

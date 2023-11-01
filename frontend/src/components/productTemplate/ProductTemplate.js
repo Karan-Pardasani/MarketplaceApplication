@@ -7,7 +7,8 @@ import { Button } from 'react-bootstrap';
 import SectionOptionsModal from '../modals/sectionOptionsModal';
 import Sections from '../sections/Sections';
 import { create_new_section } from '../../services/sections/sections_helper';
-function ProductTemplate(props) {
+
+export function ProductTemplate(props) {
   
   const {action} = props;
   const [showModal, setShowModal] = useState(false);
