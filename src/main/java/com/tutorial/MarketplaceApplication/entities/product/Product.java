@@ -4,15 +4,18 @@ import com.tutorial.MarketplaceApplication.entities.section.Section;
 import com.tutorial.MarketplaceApplication.entities.shared.Image;
 import com.tutorial.MarketplaceApplication.entities.tag.Tag;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
+@Document
 public class Product {
 
-    @BsonProperty(value = "template_id")
+    @Field(value = "template_id")
     public int templateId;
 
-    @BsonProperty(value = "schema_version")
+    @Field(value = "schema_version")
     public int schemaVersion;
 
     public List<Section> sections;

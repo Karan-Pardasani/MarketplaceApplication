@@ -1,5 +1,6 @@
 package com.tutorial.MarketplaceApplication.dto.tag;
 
+import com.tutorial.MarketplaceApplication.entities.tag.Tag;
 import lombok.*;
 
 @Data
@@ -9,7 +10,12 @@ import lombok.*;
 @AllArgsConstructor
 public class TagDTO {
 
-    public int id;
+    public String id;
 
     public String tagName;
+
+    public TagDTO(Tag tag){
+        this.id = tag.getId().toString();
+        this.tagName = tag.getTagName();
+    }
 }

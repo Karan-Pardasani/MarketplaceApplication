@@ -9,6 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = true)
 public class TableSectionDTO extends SectionDTO{
     public List<FieldDTO> fields;
 }

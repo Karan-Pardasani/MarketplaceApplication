@@ -3,15 +3,19 @@ package com.tutorial.MarketplaceApplication.dto.section.deserializers;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.source.tree.Tree;
 import com.tutorial.MarketplaceApplication.dto.field.FieldDTO;
+import com.tutorial.MarketplaceApplication.dto.group.GroupDTO;
 import com.tutorial.MarketplaceApplication.dto.section.*;
 import com.tutorial.MarketplaceApplication.dto.shared.ImageDTO;
-
+import com.tutorial.MarketplaceApplication.dto.section.CarouselSectionDTO;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,17 +33,17 @@ public class SectionDTODeserializer extends JsonDeserializer<SectionDTO> {
     public void findType(JsonParser jsonParser) throws IOException, JacksonException{
         while(jsonParser.nextToken() != JsonToken.END_OBJECT){
             String name = jsonParser.getCurrentName();
-            if("type".equals(name)){
+            if("section_type".equals(name)){
                 jsonParser.nextToken();
                 this.type = jsonParser.getText();
             }
             else if("id".equals(name)){
                 jsonParser.nextToken();
                 this.id = jsonParser.getValueAsInt();
-            } else if ("sectionOrder".equals(name)) {
+            } else if ("section_order".equals(name)) {
                 jsonParser.nextToken();
                 this.sectionOrder = jsonParser.getValueAsInt();
-            }else if("title".equals(name)){
+            }else if("section_title".equals(name)){
                 jsonParser.nextToken();
                 this.title = jsonParser.getText();
             }else{
@@ -57,15 +61,21 @@ public class SectionDTODeserializer extends JsonDeserializer<SectionDTO> {
         this.findType(jsonParser);
         ObjectMapper mapper = new ObjectMapper();
         if(this.type.equals("carousel")){
-            String _images = this._map.get("images").toString();
+            String _images = this._map.get("carousel_items").toString();
             List<ImageDTO> images = mapper.readValue(_images, new TypeReference<List<ImageDTO>>() {});
             sectionDTO = CarouselSectionDTO.builder().images(images).build();
         }
         else if (this.type.equals("form")) {
             sectionDTO = new FormSectionDTO();
-            String _fields = this._map.get("fields").toString();
-            List<FieldDTO> fields = mapper.readValue(_fields, new TypeReference<List<FieldDTO>>() {});
-            sectionDTO = FormSectionDTO.builder().fields(fields).build();
+            TreeNode groupsTreeNode = (TreeNode)this._map.get("groups");
+            if(groupsTreeNode != null){
+                String _groups = groupsTreeNode.toString();
+                TypeReference<List<GroupDTO>> ref = new TypeReference<>(){};
+                ObjectMapper _mapper = new ObjectMapper();
+                List<GroupDTO> groups = _mapper.readValue(_groups, ref);
+
+                ((FormSectionDTO)sectionDTO).setGroups(groups);
+            }
         }
         else if(this.type.equals("table")){
             sectionDTO = new TableSectionDTO();
@@ -81,6 +91,9 @@ public class SectionDTODeserializer extends JsonDeserializer<SectionDTO> {
         else{
             // Throw exception Wrong Parameters!!!
         }
+        sectionDTO.title = this.title;
+        sectionDTO.type = this.type;
+        sectionDTO.sectionOrder = this.sectionOrder;
         return sectionDTO;
     }
 }

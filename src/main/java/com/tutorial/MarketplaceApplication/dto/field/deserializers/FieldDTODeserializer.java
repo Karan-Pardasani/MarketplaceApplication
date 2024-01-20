@@ -25,7 +25,7 @@ public class FieldDTODeserializer extends JsonDeserializer<FieldDTO> {
     public FieldDTO createFieldDTO(String _type) throws JsonProcessingException {
         FieldDTO _fieldDTO = null;
         ObjectMapper _mapper = new ObjectMapper();
-        if( _type == "checkbox" ){
+        if( _type.equals("checkbox") ){
             _fieldDTO = new CheckboxFieldDTO();
             List<String> options = _mapper.readValue(this._map.get("options").toString(), new TypeReference<List<String>>(){
             });
@@ -33,7 +33,7 @@ public class FieldDTODeserializer extends JsonDeserializer<FieldDTO> {
             ((CheckboxFieldDTO)_fieldDTO).setOptions(options);
             ((CheckboxFieldDTO)_fieldDTO).setValue(value);
             return _fieldDTO;
-        } else if (_type == "dropdown") {
+        } else if (_type.equals("dropdown")) {
             _fieldDTO = new DropdownFieldDTO();
             List<String> options = _mapper.readValue(this._map.get("options").toString(), new TypeReference<List<String>>(){
             });
@@ -41,7 +41,7 @@ public class FieldDTODeserializer extends JsonDeserializer<FieldDTO> {
             ((DropdownFieldDTO)_fieldDTO).setOptions(options);
             ((DropdownFieldDTO)_fieldDTO).setValue(value);
             return _fieldDTO;
-        } else if (_type == "radio") {
+        } else if (_type.equals("radio")) {
             _fieldDTO = new RadioButtonFieldDTO();
             List<String> options = _mapper.readValue(this._map.get("options").toString(), new TypeReference<List<String>>(){
             });
@@ -49,11 +49,11 @@ public class FieldDTODeserializer extends JsonDeserializer<FieldDTO> {
             ((RadioButtonFieldDTO)_fieldDTO).setOptions(options);
             ((RadioButtonFieldDTO)_fieldDTO).setValue(value);
             return _fieldDTO;
-        } else if (_type == "text_area") {
+        } else if (_type.equals("text_area")) {
             _fieldDTO = new TextAreaDTO();
             String _content = (this._map.get("content") == null ? "" : (String) this._map.get("content"));
             ((TextAreaDTO)_fieldDTO).setContent(_content);
-        } else if (_type == "textfield") {
+        } else if (_type.equals("textfield")) {
             _fieldDTO = new TextFieldDTO();
             String _content = (this._map.get("content") == null ? "" : (String) this._map.get("content"));
             String dataType = (this._map.get("dataType") == null ? "": (String) this._map.get("dataType"));

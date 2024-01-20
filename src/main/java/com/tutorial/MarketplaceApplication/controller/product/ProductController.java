@@ -10,5 +10,4 @@ public class ProductController {
 
     private ProductService productService;
 
-//    ResponseEntity<ProductDTO> create(@RequestBody )
 }

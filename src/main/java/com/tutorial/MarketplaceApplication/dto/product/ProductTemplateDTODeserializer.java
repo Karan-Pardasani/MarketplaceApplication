@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.tutorial.MarketplaceApplication.dto.section.SectionDTO;
 import com.tutorial.MarketplaceApplication.dto.tag.TagDTO;
-import com.tutorial.MarketplaceApplication.entities.section.Section;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,18 +17,17 @@ public class ProductTemplateDTODeserializer extends JsonDeserializer<ProductTemp
             throws IOException, JsonProcessingException {
 
         ProductTemplateDTO productTemplateDTO = new ProductTemplateDTO();
-
         while(jsonParser.nextToken() != JsonToken.END_OBJECT){
             String key = jsonParser.getCurrentName();
             if("id".equals(key)){
                 jsonParser.nextToken();
-                productTemplateDTO.setId(jsonParser.getIntValue());
+                productTemplateDTO.setId(jsonParser.getText());
             }else if("title".equals(key)){
                 jsonParser.nextToken();
                 productTemplateDTO.setTitle(jsonParser.getText());
             }else if("sellerId".equals(key)){
                 jsonParser.nextToken();
-                productTemplateDTO.setSellerId(jsonParser.getIntValue());
+                productTemplateDTO.setSellerId(jsonParser.getText());
             }else if("status".equals(key)){
                 jsonParser.nextToken();
                 productTemplateDTO.setStatus(jsonParser.getText());
